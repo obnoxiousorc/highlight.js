@@ -790,6 +790,20 @@ const HLJS = function(hljs) {
     return Object.keys(languages);
   }
 
+  function getRegisteredLanguages() {
+    return Object.keys(languages).map(function (language) {
+      return getLanguage(language);
+    });
+  }
+
+  function getRegisteredLanguageAliases() {
+    return listLanguages().reduce(function (acc, cur) {
+      acc[cur] = getLanguage(cur).aliases || [];
+      acc[cur].unshift(cur);
+      return acc;
+    }, {});
+  }
+
   /**
     intended usage: When one language truly requires another
 
@@ -885,6 +899,8 @@ const HLJS = function(hljs) {
     initHighlightingOnLoad,
     registerLanguage,
     listLanguages,
+    getRegisteredLanguages,
+    getRegisteredLanguageAliases,
     getLanguage,
     registerAliases,
     requireLanguage,
